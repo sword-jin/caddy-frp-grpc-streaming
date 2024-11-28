@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "github.com/sword-jin/caddy-frp-grpc-streaming/proto";
+
+service Service {
+  rpc Unary (Request) returns (Response) {}
+  rpc Stream (Request) returns (stream Response) {}
+}
+
+message Request {
+  int32 id = 1;
+}
+
+message Response {
+  string result = 1;
+}

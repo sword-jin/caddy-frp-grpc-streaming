@@ -1,0 +1,20 @@
+version: v2
+name: github.com/sword-jin/caddy-frp-grpc-streaming
+deps:
+  - buf.build/cybozu/protobuf
+lint:
+  use:
+    - BASIC
+  except:
+    - ENUM_NO_ALLOW_ALIAS
+    - ENUM_PASCAL_CASE
+    - FIELD_NOT_REQUIRED
+    - PACKAGE_NO_IMPORT_CYCLE
+  disallow_comment_ignores: true
+breaking:
+  use:
+    - FILE
+  except:
+    - EXTENSION_NO_DELETE
+    - FIELD_SAME_DEFAULT
+  ignore_unstable_packages: true

@@ -1,0 +1,9 @@
+{
+	debug
+}
+
+https://grpc-server.example.local {
+	tls /etc/ssl/certs/example.local.crt /etc/ssl/certs/example.local.key
+	log
+	reverse_proxy frps:8888
+}

@@ -1,0 +1,43 @@
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    depends_on:
+    - frps
+    ports:
+    - "443:443"
+    - "2019:2019"
+    volumes:
+    - ./Caddyfile:/etc/caddy/Caddyfile
+    - ./example.local.crt:/etc/ssl/certs/example.local.crt
+    - ./example.local.key:/etc/ssl/certs/example.local.key
+
+  frps:
+    image: snowdreamtech/frps:0.61-alpine
+    restart: always
+    depends_on:
+    - grpc-server
+    entrypoint:
+    - /usr/bin/frps
+    - --vhost-http-port=8888
+    - --bind-port=7000 
+    - --subdomain-host=example.local
+    - --log-level=debug
+  
+  frpc:
+    image: snowdreamtech/frpc:0.61-alpine
+    restart: always
+    depends_on:
+    - frps
+    entrypoint:
+    - /usr/bin/frpc
+    - http
+    - --server-addr=frps
+    - --server-port=7000
+    - --sd=grpc-server
+    - --proxy-name=grpc-server
+    - --local-port=8080
+    - --local-ip=grpc-server
+    - --log-level=debug
+  
+  grpc-server:
+    image: grpc-server:local
